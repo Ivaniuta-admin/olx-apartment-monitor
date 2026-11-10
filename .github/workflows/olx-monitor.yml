@@ -1,0 +1,55 @@
+name: OLX Monitor
+
+on:
+  schedule:
+    # Кожні 5 хвилин, приблизно 05:00-19:00 UTC = 08:00-22:00 за Києвом (літній час, UTC+3).
+    # Взимку (UTC+2) це вікно зміститься на ~1 год раніше за київським часом -
+    # точну відсічку 08:00-22:00 в будь-яку пору року забезпечує перевірка
+    # всередині самого скрипта (is_within_active_hours), це лише економія
+    # хвилин Actions, щоб раннер взагалі не піднімався вночі.
+    - cron: "*/5 5-18 * * *"
+  workflow_dispatch: {}  # дозволяє запустити вручну з вкладки Actions (скрипт все одно пропустить перевірку, якщо зараз ніч)
+
+# Дозволяємо workflow комітити оновлений seen_ids.json назад у репозиторій
+permissions:
+  contents: write
+
+concurrency:
+  group: olx-monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Run OLX check
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_IDS: ${{ secrets.TELEGRAM_CHAT_IDS }}
+          OLX_SEARCH_URL: ${{ vars.OLX_SEARCH_URL }}
+        run: python send_advertisement.py
+
+      - name: Commit updated seen_ids.json (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain seen_ids.json)" ]; then
+            git add seen_ids.json
+            git commit -m "Оновлено seen_ids.json [skip ci]"
+            git push
+          else
+            echo "seen_ids.json не змінився - нічого комітити"
+          fi
