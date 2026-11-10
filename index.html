@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLX Monitor — нові оголошення OLX у Telegram</title>
+<meta name="description" content="Парсер OLX зі сповіщеннями в Telegram: Python, Playwright, GitHub Actions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Manrope,system-ui,sans-serif;background:#0B1F1E;color:#fff;min-height:100vh;display:flex;align-items:center}
+.wrap{max-width:1360px;margin:0 auto;padding:56px 40px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5EEAD4}
+.dot{width:9px;height:9px;border-radius:50%;background:#14B8A6}
+h1{font-size:clamp(36px,4.4vw,58px);line-height:1.06;font-weight:800;letter-spacing:-.02em;margin-top:18px}
+.lead{font-size:20px;line-height:1.55;margin-top:20px;color:#A7C4C0;max-width:600px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.chip{font-size:15px;font-weight:700;padding:9px 15px;border-radius:999px;background:#163A37;color:#C7F5EE}
+.btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;background:#14B8A6;color:#062B28;text-decoration:none;font-weight:800;padding:14px 22px;border-radius:12px}
+.flow{display:flex;flex-direction:column;gap:12px}
+.step{display:flex;align-items:center;gap:16px;background:#122E2C;border-radius:16px;padding:16px 20px;font-size:18px;font-weight:600}
+.num{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;background:#14B8A6;color:#062B28;flex-shrink:0}
+.tg{background:#17312F;border-radius:24px;padding:22px;margin-top:8px}
+.msg{background:#1F4A45;color:#E6FFFB;border-radius:18px 18px 18px 6px;padding:18px 20px;font-size:19px;line-height:1.5}
+.note{font-size:14px;color:#7FA8A3;margin-top:10px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:40px;padding:40px 20px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section>
+    <div class="tag"><span class="dot"></span>Парсер · моніторинг</div>
+    <h1>Моніторинг оголошень<br>OLX у Telegram</h1>
+    <p class="lead">Бот стежить за новими оголошеннями за вашими фільтрами й одразу надсилає їх у Telegram. Без дублів і «ТОП»-оголошень, лише в робочі години, без власного сервера.</p>
+    <div class="chips"><span class="chip">Python</span><span class="chip">Playwright</span><span class="chip">BeautifulSoup</span><span class="chip">GitHub Actions</span><span class="chip">Telegram Bot API</span></div>
+    <a class="btn" href="https://github.com/Ivaniuta-admin/olx-apartment-monitor">Код на GitHub →</a>
+  </section>
+  <section class="flow">
+    <div class="step"><span class="num">1</span>GitHub Actions запускає перевірку кожні ~5 хв (08:00–22:00)</div>
+    <div class="step"><span class="num">2</span>Playwright відкриває видачу OLX з фільтрами</div>
+    <div class="step"><span class="num">3</span>Нові ID звіряються з базою seen_ids.json</div>
+    <div class="step"><span class="num">4</span>Нові оголошення летять у Telegram</div>
+    <div class="tg">
+      <div class="msg">🏠 <b>2-кімнатна квартира біля центру</b><br>💰 12 000 грн.<br>🔗 olx.ua/d/uk/obyavlenie/…</div>
+      <div class="note">Приклад сповіщення (дані вигадані, формат — як у боті)</div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
