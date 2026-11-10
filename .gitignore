@@ -1,0 +1,19 @@
+# Секрети
+.env
+
+# Службові файли скрипта (стан, локи, логи)
+# seen_ids.json НЕ ігноруємо - його комітить GitHub Actions workflow,
+# щоб зберігати стан між запусками
+olx_monitor.lock
+olx_monitor_error.log
+last_failed_page.html
+debug_card_*.html
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ОС
+.DS_Store
